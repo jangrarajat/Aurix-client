@@ -4,6 +4,22 @@ const App = () => {
   // States
   const [activeProject, setActiveProject] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [selectedService, setSelectedService] = useState('Website');
+
+  // --- REVIEW SYSTEM STATES ---
+  const [reviews, setReviews] = useState([
+    { id: 1, name: "Rahul Sharma", role: "CEO, TechFlow", rating: 5, text: "Inki team ne hamara platform bilkul waqt par aur perfect banaya. Highly recommended!" },
+    { id: 2, name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 3, name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 4, name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 5,name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 6,name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 7, name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 8, name: "Priya Singh", role: "Founder, EduSmart", rating: 5, text: "Great UI/UX and seamless integration. The best development agency we've worked with." },
+    { id: 9, name: "Amit Verma", role: "Manager, RetailPro", rating: 4, text: "Very professional workflow. The custom software helped scale our business significantly." },
+  ]);
+  const [newReview, setNewReview] = useState({ name: '', role: '', rating: 5, text: '' });
+  const [hoverRating, setHoverRating] = useState(0);
 
   // SVG Icons
   const SearchIcon = () => (
@@ -11,6 +27,11 @@ const App = () => {
   );
   const ChevronDown = ({ isOpen }) => (
     <svg className={`w-3 h-3 ml-1 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+  );
+  const StarIcon = ({ filled, onClick, onMouseEnter, onMouseLeave }) => (
+    <svg onClick={onClick} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} className={`w-5 h-5 cursor-pointer transition-colors ${filled ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+    </svg>
   );
 
   // Dropdown Options Data
@@ -25,6 +46,16 @@ const App = () => {
   const toggleDropdown = (menuName) => {
     if (openDropdown === menuName) setOpenDropdown(null);
     else setOpenDropdown(menuName);
+  };
+
+  // Handle New Review Submission
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!newReview.name || !newReview.text) return;
+    // Add new review to the top of the list
+    setReviews([{ ...newReview, id: Date.now() }, ...reviews]);
+    // Reset form
+    setNewReview({ name: '', role: '', rating: 5, text: '' });
   };
 
   // Project Data
@@ -60,7 +91,7 @@ const App = () => {
   ];
 
   const getTagColor = (tag) => {
-    switch(tag) {
+    switch (tag) {
       case 'React': return 'bg-teal-100 text-teal-800';
       case 'Python': return 'bg-yellow-100 text-yellow-800';
       case 'Cloud': return 'bg-blue-100 text-blue-800';
@@ -71,7 +102,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-[#fafafa] font-sans text-gray-900 relative overflow-x-hidden">
-      
+
       {/* Invisible overlay to close dropdowns when clicking outside */}
       {openDropdown && (
         <div className="fixed inset-0 z-30" onClick={() => setOpenDropdown(null)}></div>
@@ -101,7 +132,7 @@ const App = () => {
           <div className="text-3xl font-black tracking-tighter">
             <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="logo" className='h-8 sm:h-10 cursor-pointer' />
           </div>
-          {/* Desktop Navigation - Hidden on mobile */}
+
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-sm font-semibold text-gray-700">
             <button className="flex items-center hover:text-black transition whitespace-nowrap">Explore <ChevronDown isOpen={false} /></button>
             <button className="hover:text-black transition whitespace-nowrap">Tech Directory</button>
@@ -110,37 +141,31 @@ const App = () => {
             <button className="hover:text-black transition whitespace-nowrap">Marketplace</button>
           </div>
         </div>
-        
-        {/* Search Bar - Responsive */}
+
         <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-3 py-2 flex-1 max-w-md lg:w-96 border border-gray-200 focus-within:border-gray-400 focus-within:bg-white transition-all">
           <SearchIcon />
           <input type="text" placeholder="Search by Project, Stack or Service" className="bg-transparent border-none outline-none ml-2 text-sm w-full text-gray-600 placeholder-gray-400" />
         </div>
-        
-        {/* Action Buttons - Responsive */}
-        <div className="flex   items-center space-x-1 space-y-1 sm:space-x-3 md:space-x-4 text-sm font-semibold flex-wrap">
+
+        <div className="flex items-center space-x-1 space-y-1 sm:space-x-3 md:space-x-4 text-sm font-semibold flex-wrap">
           <button className="border border-gray-300 p-2 rounded-lg text-gray-600 hover:text-black transition whitespace-nowrap">Log in</button>
           <button className="border border-gray-300 p-2 rounded-lg text-gray-600 hover:text-black transition whitespace-nowrap">Sign Up</button>
-           <button className="border border-gray-300 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-50 transition active:scale-95 text-sm whitespace-nowrap">Request a Quote</button>
+          <button className="border border-gray-300 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-50 transition active:scale-95 text-sm whitespace-nowrap">Request a Quote</button>
         </div>
       </nav>
 
-      {/* 3. FUNCTIONAL Filter Bar - FULLY RESPONSIVE (Fixed overflow) */}
+      {/* 3. FUNCTIONAL Filter Bar */}
       <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 relative z-30">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          
-          {/* Dynamic Dropdowns - Responsive */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
             {['Project Industry', 'Project Type', 'Development Team'].map((filter) => (
               <div key={filter} className="relative">
-                <button 
+                <button
                   onClick={() => toggleDropdown(filter)}
                   className={`flex items-center px-3 sm:px-4 py-1.5 border rounded-full font-medium transition-colors text-xs sm:text-sm whitespace-nowrap ${openDropdown === filter ? 'border-gray-400 bg-gray-50 text-black' : 'border-gray-200 hover:bg-gray-50 text-gray-700'}`}
                 >
                   {filter} <ChevronDown isOpen={openDropdown === filter} />
                 </button>
-                
-                {/* Dropdown Menu */}
                 {openDropdown === filter && (
                   <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-lg py-2 animate-fadeIn z-50">
                     {filterOptions[filter].map((option, i) => (
@@ -155,10 +180,9 @@ const App = () => {
           </div>
 
           <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-          
-          {/* Tech Stack Dropdown - Responsive */}
+
           <div className="relative">
-            <button 
+            <button
               onClick={() => toggleDropdown('Tech Stack')}
               className={`flex items-center px-3 sm:px-4 py-1.5 border rounded-full font-medium transition-colors text-xs sm:text-sm whitespace-nowrap ${openDropdown === 'Tech Stack' ? 'border-gray-400 bg-gray-50 text-black' : 'border-gray-200 hover:bg-gray-50 text-gray-700'}`}
             >
@@ -175,16 +199,14 @@ const App = () => {
             )}
           </div>
 
-          {/* Static Tag Pills - Responsive */}
           <div className="flex flex-wrap items-center gap-2">
-            {['React','Javascript','CSS ',,'Python', 'Cloud'].map((tech) => (
+            {['React', 'Javascript', 'CSS', 'Python', 'Cloud'].map((tech) => (
               <span key={tech} className="px-2 sm:px-3 py-1 bg-gray-100 text-gray-600 font-medium rounded-full cursor-pointer hover:bg-gray-200 transition text-xs sm:text-sm whitespace-nowrap">{tech}</span>
             ))}
           </div>
 
           <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-          
-          {/* UI Style Button - Responsive */}
+
           <button className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 border border-gray-200 rounded-full font-medium text-gray-700 hover:bg-gray-50 transition active:scale-95 text-xs sm:text-sm whitespace-nowrap">
             <span>UI Style</span> <ChevronDown isOpen={false} />
             <div className="flex space-x-1 ml-1 sm:ml-2">
@@ -194,7 +216,6 @@ const App = () => {
             </div>
           </button>
 
-          {/* Reset Filters - Responsive */}
           <div className="flex items-center space-x-3 ml-auto">
             <span className="bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap">1</span>
             <button className="flex items-center text-gray-500 hover:text-black font-medium transition text-xs sm:text-sm whitespace-nowrap">
@@ -205,10 +226,9 @@ const App = () => {
         </div>
       </div>
 
-      {/* 4. Main Content Area - Fully Responsive */}
+      {/* 4. Main Content Area */}
       <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        
-        {/* Responsive Stats Bar */}
+
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-xs sm:text-sm text-gray-500 gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <span>Websites <span className="border border-gray-300 rounded px-1 ml-1 text-xs font-medium text-gray-600">46K</span></span>
@@ -218,8 +238,8 @@ const App = () => {
           <div className="text-xs sm:text-sm">Best selection of <span className="font-bold text-gray-800">Technology Website</span> examples... <a href="#" className="underline hover:text-black">Read more</a></div>
         </div>
 
-        {/* Hero Banner - Fully Responsive (Stack on mobile) */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-8 sm:mb-10 flex flex-col md:flex-row relative shadow-sm hover:shadow-md transition cursor-pointer">
+        {/* --- HERO BANNER WITH DETAILED APPLY SYSTEM --- */}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-8 sm:mb-10 flex flex-col md:flex-row relative shadow-sm transition">
           <div className="md:w-1/2 relative h-56 sm:h-64 md:h-auto overflow-hidden">
             <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" alt="Team working" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
@@ -228,44 +248,82 @@ const App = () => {
               </button>
             </div>
           </div>
-          
-          <div className="md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-gray-900 mb-2">TRANSFORMING IDEAS INTO <br className="hidden sm:block"/> SOFTWARE SOLUTIONS</h2>
-            <p className="text-gray-500 text-base sm:text-lg mb-6 sm:mb-8">Custom Apps & Web Development</p>
-            <div className="flex items-center justify-between mt-auto">
-              <div className="flex items-center space-x-2 sm:space-x-3 group">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-black rounded-full flex items-center justify-center text-white font-bold text-xs group-hover:scale-110 transition-transform">M</div>
-                <span className="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-black">Meraki Dev</span>
+
+          <div className="md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-gray-900 mb-2">TRANSFORMING IDEAS INTO <br className="hidden sm:block" /> SOFTWARE SOLUTIONS</h2>
+            <p className="text-gray-500 text-base sm:text-lg mb-6">Custom Apps & Web Development</p>
+
+            <div className="mb-6 bg-gray-50/80 backdrop-blur-sm p-4 sm:p-5 rounded-xl border border-gray-200 shadow-sm" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-sm font-bold text-gray-800 mb-3">Project Requirement Details</h3>
+
+              {/* Type */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {['Website', 'Mobile App', 'Software'].map((service) => (
+                  <button
+                    key={service}
+                    onClick={() => setSelectedService(service)}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${selectedService === service
+                        ? 'bg-black text-white border-black shadow-md'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-black'
+                      }`}
+                  >
+                    {service === 'Website' ? '🌐' : service === 'Mobile App' ? '📱' : '💻'} {service}
+                  </button>
+                ))}
               </div>
-              <button className="bg-black text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-lg font-semibold flex items-center hover:bg-gray-800 transition active:scale-95 text-sm">
-                Open <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-              </button>
+
+              {/* Purpose & Theme */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Purpose / Industry</label>
+                  <input type="text" placeholder="e.g. Clinic, School, E-commerce..." className="w-full text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Color / Theme Preference</label>
+                  <input type="text" placeholder="e.g. Dark Mode, Blue accents..." className="w-full text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
+                </div>
+              </div>
+
+              {/* Features */}
+              <div className="mb-4">
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Required Features</label>
+                <input type="text" placeholder="e.g. Booking System, Contact Form, Payment Gateway, Fees..." className="w-full text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
+              </div>
+
+              {/* Contact & Apply */}
+              <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-gray-200">
+                <input
+                  type="text"
+                  placeholder="Email or Phone No."
+                  className="flex-1 text-sm px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all"
+                />
+                <button className="bg-blue-600 text-white px-6 py-2 text-sm font-bold rounded-lg hover:bg-blue-700 transition shadow-sm whitespace-nowrap active:scale-95">
+                  Submit Request
+                </button>
+              </div>
             </div>
+
+            
           </div>
         </div>
 
-        {/* INTERACTIVE Project Grid - Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-6">
+        {/* INTERACTIVE Project Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {projects.map((project, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="group cursor-pointer flex flex-col"
               onClick={() => setActiveProject(project)}
             >
-              {/* Card Image */}
-              <div className="bg-gray-100 overflow-hidden aspect-[6/4] mb-3 sm:mb-4 border border-gray-100 shadow-sm group-hover:shadow-lg transition-all relative  ">
-                <img src={project.img} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                
-                {/* Hover Overlay */}
+              <div className="bg-gray-100 overflow-hidden aspect-[6/4] mb-3 sm:mb-4 border border-gray-100 shadow-sm group-hover:shadow-lg transition-all relative   ">
+                <img src={project.img} alt={project.title} className="w-full h-full object-cover transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                   <span className="text-white text-xs sm:text-sm font-bold bg-blue-600/90 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full backdrop-blur-sm shadow-lg">
-                     {project.url ? 'View Live Site' : 'View Details'}
-                   </span>
+                  <span className="text-white text-xs sm:text-sm font-bold bg-blue-600/90 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full backdrop-blur-sm shadow-lg">
+                    {project.url ? 'View Live Site' : 'View Details'}
+                  </span>
                 </div>
               </div>
-              
               <h3 className="font-bold text-gray-900 text-xs sm:text-sm mb-2 group-hover:text-blue-600 transition truncate">{project.title}</h3>
-              
               <div className="flex flex-wrap gap-1 mb-2 sm:mb-3">
                 {project.tags.map(tag => (
                   <span key={tag} className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded ${getTagColor(tag)} uppercase tracking-wide`}>
@@ -273,7 +331,6 @@ const App = () => {
                   </span>
                 ))}
               </div>
-              
               <div className="flex items-center mt-auto border-t border-gray-100 pt-2 sm:pt-3">
                 <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gray-800 rounded-full mr-2"></div>
                 <span className="text-[10px] sm:text-xs font-semibold text-gray-600 group-hover:text-black transition truncate">{project.author}</span>
@@ -281,13 +338,102 @@ const App = () => {
             </div>
           ))}
         </div>
+
+        {/* --- NEW: USER REVIEWS & SUBMIT SECTION --- */}
+        <div className="mt-16 pt-12 border-t border-gray-200">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+
+            {/* Left: Submit a Review Form */}
+            <div className="lg:w-1/3">
+              <h2 className="text-2xl font-black text-gray-900 mb-2">Leave a Review</h2>
+              <p className="text-sm text-gray-500 mb-6">Worked with us? We'd love to hear about your experience.</p>
+
+              <form onSubmit={handleReviewSubmit} className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="mb-4">
+                  <label className="block text-xs font-bold text-gray-600 mb-1">Your Name</label>
+                  <input
+                    type="text" required
+                    value={newReview.name} onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
+                    placeholder="John Doe"
+                    className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-bold text-gray-600 mb-1">Company / Role</label>
+                  <input
+                    type="text"
+                    value={newReview.role} onChange={(e) => setNewReview({ ...newReview, role: e.target.value })}
+                    placeholder="Founder, ABC Corp"
+                    className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-bold text-gray-600 mb-1">Rating</label>
+                  <div className="flex space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <StarIcon
+                        key={star}
+                        filled={star <= (hoverRating || newReview.rating)}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        onClick={() => setNewReview({ ...newReview, rating: star })}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="mb-5">
+                  <label className="block text-xs font-bold text-gray-600 mb-1">Your Feedback</label>
+                  <textarea
+                    required rows="3"
+                    value={newReview.text} onChange={(e) => setNewReview({ ...newReview, text: e.target.value })}
+                    placeholder="Tell us about your project..."
+                    className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all resize-none"
+                  ></textarea>
+                </div>
+                <button type="submit" className="w-full bg-black text-white px-4 py-2.5 rounded-lg font-bold hover:bg-gray-800 transition active:scale-95 text-sm">
+                  Post Review
+                </button>
+              </form>
+            </div>
+
+            {/* Right: Client Reviews Grid */}
+            <div className="lg:w-2/3">
+              <h2 className="text-2xl font-black text-gray-900 mb-2">What People Say</h2>
+              <p className="text-sm text-gray-500 mb-6">Read real feedback from our clients.</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                {reviews.map((review) => (
+                  <div key={review.id} className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition">
+                    <div className="flex space-x-1 mb-3">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg key={star} className={`w-4 h-4 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600 mb-4 italic leading-relaxed">"{review.text}"</p>
+                    <div className="flex items-center pt-3 border-t border-gray-100">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs mr-3">
+                        {review.name.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900 text-xs sm:text-sm">{review.name}</h4>
+                        <p className="text-[10px] sm:text-xs text-gray-500">{review.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </main>
 
-      {/* 5. Discover More & COMPLETE FOOTER - Responsive */}
+      {/* 5. Discover More & COMPLETE FOOTER */}
       <div className="bg-[#fafafa] border-t border-gray-200 mt-8 sm:mt-12">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          
-          {/* Discover More - Responsive Grid */}
           <div className="mb-8 sm:mb-12">
             <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6">Discover more</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-0 border-t border-gray-200">
@@ -303,13 +449,11 @@ const App = () => {
             </div>
           </div>
 
-          {/* Main Footer Links - Responsive Grid */}
           <footer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 pt-6 sm:pt-8 pb-6 sm:pb-10 text-xs sm:text-sm text-gray-600 font-medium">
             <div className="sm:col-span-2">
-               <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="Aurix AI" className="h-8 sm:h-10 mb-4 sm:mb-6" />
-               <p className="text-gray-400 text-xs mt-2 max-w-xs leading-relaxed">Crafting high-performance web and mobile software solutions to scale your business.</p>
+              <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="Aurix AI" className="h-8 sm:h-10 mb-4 sm:mb-6" />
+              <p className="text-gray-400 text-xs mt-2 max-w-xs leading-relaxed">Crafting high-performance web and mobile software solutions to scale your business.</p>
             </div>
-            
             <div className="space-y-2 sm:space-y-3">
               <a href="#" className="block hover:text-black hover:translate-x-1 transition-transform">Projects</a>
               <a href="#" className="block hover:text-black hover:translate-x-1 transition-transform">Websites</a>
@@ -333,7 +477,6 @@ const App = () => {
             </div>
           </footer>
 
-          {/* Sub Footer / Connect - Responsive */}
           <div className="flex flex-col md:flex-row items-center justify-between pt-6 border-t border-gray-200 border-dashed text-xs sm:text-sm font-medium text-gray-600 gap-4">
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs text-gray-500">
               <a href="#" className="hover:text-black transition">Cookies Policy</a>
@@ -351,11 +494,10 @@ const App = () => {
               <a href="#" className="hover:text-black transition">Pinterest</a>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* --- THE INTERACTIVE LIVE PREVIEW MODAL - Responsive --- */}
+      {/* --- THE INTERACTIVE LIVE PREVIEW MODAL --- */}
       {activeProject && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4 md:p-8 animate-fadeIn">
           <div className="bg-white w-full h-full max-w-7xl max-h-[90vh] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl relative">
@@ -368,7 +510,7 @@ const App = () => {
                   </a>
                 )}
               </div>
-              <button 
+              <button
                 onClick={() => setActiveProject(null)}
                 className="bg-gray-200 hover:bg-red-500 hover:text-white text-gray-700 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors font-bold text-lg sm:text-xl flex-shrink-0 ml-3"
               >
@@ -382,8 +524,8 @@ const App = () => {
                     <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-4 border-gray-300 border-t-blue-600 mb-3 sm:mb-4"></div>
                     <p className="text-xs sm:text-sm">Loading Live Website...</p>
                   </div>
-                  <iframe 
-                    src={activeProject.url} 
+                  <iframe
+                    src={activeProject.url}
                     className="w-full h-full relative z-10 bg-white"
                     title={activeProject.title}
                     sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
