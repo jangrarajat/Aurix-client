@@ -49,11 +49,30 @@ const App = () => {
   );
 
   const filterOptions = {
-    'Project Industry': ['All Industries', 'Education', 'Healthcare', 'E-commerce', 'Finance & Tech'],
-    'Project Type': ['All Types', 'Web Application', 'Mobile App', 'Landing Page', 'SaaS Platform', 'ERP System'],
+    'Project Industry': ['All Industries', 'Education', 'Healthcare', 'E-commerce', 'Finance & Tech', 'Real Estate', 'Travel & Hospitality'],
+    'Project Type': ['All Types', 'Web Application', 'Mobile App', 'Landing Page', 'SaaS Platform', 'ERP System', 'E-commerce Store'],
     'Development Team': ['All Teams', 'Meraki Dev Core', 'Binary Logic Studio', 'Cloud Native Team'],
-    'Tech Stack': ['React', 'Next.js', 'Python/Django', 'Node.js', 'Cloud Native']
   };
+
+  // All Services offered by company
+  const allServices = [
+    { name: "Web Development", icon: "🌐", color: "bg-blue-500" },
+    { name: "Mobile App Development", icon: "📱", color: "bg-green-500" },
+    { name: "Software Development", icon: "💻", color: "bg-purple-500" },
+    { name: "WhatsApp Business API", icon: "💬", color: "bg-green-600" },
+    { name: "Graphic Design", icon: "🎨", color: "bg-pink-500" },
+    { name: "Video Editing", icon: "🎬", color: "bg-red-500" },
+    { name: "Salesforce Solutions", icon: "☁️", color: "bg-blue-600" },
+    { name: "AI Automation", icon: "🤖", color: "bg-indigo-500" },
+    { name: "AI Agents", icon: "🧠", color: "bg-purple-600" },
+    { name: "AI Tools", icon: "⚙️", color: "bg-gray-700" },
+    { name: "Bulk SMS System", icon: "📨", color: "bg-orange-500" },
+    { name: "Business Automation", icon: "⚡", color: "bg-yellow-600" },
+    { name: "API Integration", icon: "🔗", color: "bg-teal-500" },
+    { name: "WordPress Development", icon: "📝", color: "bg-blue-400" },
+    { name: "Digital Marketing", icon: "📈", color: "bg-red-400" },
+    { name: "SEO Services", icon: "🔍", color: "bg-emerald-500" }
+  ];
 
   const toggleDropdown = (menuName) => {
     if (openDropdown === menuName) setOpenDropdown(null);
@@ -177,14 +196,14 @@ const App = () => {
         <div className="flex animate-marquee whitespace-nowrap shrink-0">
           {[...Array(5)].map((_, i) => (
             <span key={i} className="mx-3 md:mx-4 tracking-wide text-gray-300 flex items-center">
-              <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="logo" className='h-2 sm:h-10 cursor-pointer mr-2' />  Aurix AI Software: Custom Web & Mobile Apps | Get 20% off on your first project | Build your Dream Website, App & Software today | Scale your Business with Scalable SaaS |
+              <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="logo" className='h-2 sm:h-10 cursor-pointer mr-2' />  Aurix AI Software: Custom Web & Mobile Apps | Get 20% off on your first project | Build your Dream Website, App & Software today | Scale your Business with Scalable SaaS | WhatsApp Business API | AI Automation & Agents | Bulk SMS System | Business Automation Solutions |
             </span>
           ))}
         </div>
         <div className="flex animate-marquee whitespace-nowrap shrink-0">
           {[...Array(5)].map((_, i) => (
             <span key={`dup-${i}`} className="mx-3 md:mx-4 tracking-wide text-gray-300">
-              Aurix AI Software: Custom Web & Mobile Apps | Get 20% off on your first project | Build your Dream Website, App & Software today | Scale your Business with Scalable SaaS |
+              Aurix AI Software: Custom Web & Mobile Apps | Get 20% off on your first project | Build your Dream Website, App & Software today | Scale your Business with Scalable SaaS | WhatsApp Business API | AI Automation & Agents | Bulk SMS System | Business Automation Solutions |
             </span>
           ))}
         </div>
@@ -200,17 +219,35 @@ const App = () => {
             <button className="flex items-center hover:text-black transition whitespace-nowrap">Explore <ChevronDown isOpen={false} /></button>
             <button className="hover:text-black transition whitespace-nowrap">Tech Directory</button>
             <button className="hover:text-black transition whitespace-nowrap">Software Academy</button>
-            <button className="hover:text-black transition whitespace-nowrap">Jobs</button>
             <button className="hover:text-black transition whitespace-nowrap">Marketplace</button>
           </div>
         </div>
+        
         <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-3 py-2 flex-1 max-w-md lg:w-96 border border-gray-200 focus-within:border-gray-400 focus-within:bg-white transition-all">
           <SearchIcon />
           <input type="text" placeholder="Search by Project, Stack or Service" className="bg-transparent border-none outline-none ml-2 text-sm w-full text-gray-600 placeholder-gray-400" />
         </div>
+        
+        {/* Social Media Icons - Added beside search bar */}
+        <div className="hidden md:flex items-center space-x-3">
+          <a href="#" className="text-gray-500 hover:text-pink-600 transition-all hover:scale-110">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
+          </a>
+          <a href="#" className="text-gray-500 hover:text-blue-600 transition-all hover:scale-110">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+          </a>
+          <a href="#" className="text-gray-500 hover:text-red-600 transition-all hover:scale-110">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.376.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.376-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="#" className="text-gray-500 hover:text-blue-800 transition-all hover:scale-110">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451c.979 0 1.771-.773 1.771-1.729V1.729C24 .774 23.204 0 22.225 0z"/></svg>
+          </a>
+          <a href="#" className="text-gray-500 hover:text-gray-900 transition-all hover:scale-110">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.387.6.113.82-.26.82-.58 0-.287-.01-1.05-.015-2.06-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.303 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </div>
+        
         <div className="flex items-center space-x-1 space-y-1 sm:space-x-3 md:space-x-4 text-sm font-semibold flex-wrap">
-          <button onClick={() => setIsLoginOpen(true)} className="border border-gray-300 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-50 transition whitespace-nowrap">Log in</button>
-          <button className="border border-gray-300 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-50 transition whitespace-nowrap">Sign Up</button>
           <button className="border border-gray-300 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-50 transition active:scale-95 text-sm whitespace-nowrap">Request a Quote</button>
         </div>
       </nav>
@@ -219,7 +256,7 @@ const App = () => {
       <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 relative z-30">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
-            {['Project Industry', 'Project Type', 'Development Team'].map((filter) => (
+            {['Project Industry', 'Project Type'].map((filter) => (
               <div key={filter} className="relative">
                 <button onClick={() => toggleDropdown(filter)} className={`flex items-center px-3 sm:px-4 py-1.5 border rounded-full font-medium transition-colors text-xs sm:text-sm whitespace-nowrap ${openDropdown === filter ? 'border-gray-400 bg-gray-50 text-black' : 'border-gray-200 hover:bg-gray-50 text-gray-700'}`}>
                   {filter} <ChevronDown isOpen={openDropdown === filter} />
@@ -234,40 +271,30 @@ const App = () => {
               </div>
             ))}
           </div>
-          <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-          <div className="relative">
-            <button onClick={() => toggleDropdown('Tech Stack')} className={`flex items-center px-3 sm:px-4 py-1.5 border rounded-full font-medium transition-colors text-xs sm:text-sm whitespace-nowrap ${openDropdown === 'Tech Stack' ? 'border-gray-400 bg-gray-50 text-black' : 'border-gray-200 hover:bg-gray-50 text-gray-700'}`}>
-              Tech Stack <ChevronDown isOpen={openDropdown === 'Tech Stack'} />
-            </button>
-            {openDropdown === 'Tech Stack' && (
-              <div className="absolute top-full left-0 mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-lg py-2 animate-fadeIn z-50">
-                {filterOptions['Tech Stack'].map((tech, i) => (
-                  <button key={i} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition">{tech}</button>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            {['React', 'Javascript', 'CSS', 'Python', 'Cloud'].map((tech) => (
-              <span key={tech} className="px-2 sm:px-3 py-1 bg-gray-100 text-gray-600 font-medium rounded-full cursor-pointer hover:bg-gray-200 transition text-xs sm:text-sm whitespace-nowrap">{tech}</span>
-            ))}
-          </div>
-          <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-          <button className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 border border-gray-200 rounded-full font-medium text-gray-700 hover:bg-gray-50 transition active:scale-95 text-xs sm:text-sm whitespace-nowrap">
-            <span>UI Style</span> <ChevronDown isOpen={false} />
-            <div className="flex space-x-1 ml-1 sm:ml-2">
-              <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400"></span>
-              <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></span>
-              <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-purple-400"></span>
+          
+          {/* Services Section - NEW: WhatsApp API, AI Automation, etc. */}
+          <div className="flex flex-wrap items-center gap-2 ml-auto">
+            <span className="text-xs font-semibold text-gray-500 mr-1 hidden lg:inline">Services:</span>
+            <div className="flex flex-wrap gap-2">
+              {allServices.slice(0, 8).map((service, idx) => (
+                <span key={idx} className={`${service.color} text-white px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:scale-105 transition-transform shadow-sm`}>
+                  {service.icon} {service.name}
+                </span>
+              ))}
+              <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:bg-gray-300 transition">
+                +{allServices.length - 8} More
+              </span>
             </div>
-          </button>
-          <div className="flex items-center space-x-3 ml-auto">
-            <span className="bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap">1</span>
-            <button className="flex items-center text-gray-500 hover:text-black font-medium transition text-xs sm:text-sm whitespace-nowrap">
-              Reset filters
-              <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-            </button>
           </div>
+        </div>
+        
+        {/* Second Row - More Services */}
+        <div className="flex flex-wrap gap-2 mt-3 pt-2 border-t border-gray-100">
+          {allServices.slice(8).map((service, idx) => (
+            <span key={idx} className={`${service.color} text-white px-2 py-0.5 rounded-full text-[10px] font-semibold cursor-pointer hover:scale-105 transition-transform opacity-80 hover:opacity-100`}>
+              {service.icon} {service.name}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -334,13 +361,13 @@ const App = () => {
           </div>
           <div className="md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-gray-900 mb-2">TRANSFORMING IDEAS INTO <br className="hidden sm:block" /> SOFTWARE SOLUTIONS</h2>
-            <p className="text-gray-500 text-base sm:text-lg mb-6">Custom Apps & Web Development</p>
+            <p className="text-gray-500 text-base sm:text-lg mb-6">Custom Apps & Web Development | WhatsApp API | AI Automation</p>
             <div className="mb-6 bg-gray-50/80 backdrop-blur-sm p-4 sm:p-5 rounded-xl border border-gray-200 shadow-sm" onClick={(e) => e.stopPropagation()}>
               <h3 className="text-sm font-bold text-gray-800 mb-3">Project Requirement Details</h3>
               <div className="flex flex-wrap gap-2 mb-4">
-                {['Website', 'Mobile App', 'Software'].map((service) => (
+                {['Website', 'Mobile App', 'Software', 'WhatsApp API', 'AI Automation'].map((service) => (
                   <button key={service} onClick={() => setSelectedService(service)} className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${selectedService === service ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-black'}`}>
-                    {service === 'Website' ? '🌐' : service === 'Mobile App' ? '📱' : '💻'} {service}
+                    {service === 'Website' ? '🌐' : service === 'Mobile App' ? '📱' : service === 'Software' ? '💻' : service === 'WhatsApp API' ? '💬' : '🤖'} {service}
                   </button>
                 ))}
               </div>
@@ -356,7 +383,7 @@ const App = () => {
               </div>
               <div className="mb-4">
                 <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Required Features</label>
-                <input type="text" placeholder="e.g. Booking System, Contact Form, Payment Gateway, Fees..." className="w-full text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
+                <input type="text" placeholder="e.g. Booking System, Contact Form, Payment Gateway, WhatsApp Integration, AI Chatbot, Bulk SMS..." className="w-full text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
               </div>
               <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-gray-200">
                 <input type="text" placeholder="Email or Phone No." className="flex-1 text-sm px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-200 transition-all" />
@@ -369,7 +396,7 @@ const App = () => {
                 <span className="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-black"> Rahul Yadav</span>
               </div>
               <button className="bg-black text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-lg font-semibold flex items-center hover:bg-gray-800 transition active:scale-95 text-sm">
-              Contect with Rahul Yadav <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+              Contact with Rahul Yadav <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
               </button>
             </div>
           </div>
@@ -412,7 +439,7 @@ const App = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {(showAllTech ? techStack : techStack.slice(0, 12)).map((tech, idx) => (
                 <div key={idx} className="border-r border-b border-gray-200 p-8 flex flex-col items-center justify-center group hover:bg-gray-50 transition-colors duration-300 animate-fadeIn">
-                  <div className="h-12 w-full flex items-center justify-center     group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="h-12 w-full flex items-center justify-center group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
                     <img src={tech.logo} alt={tech.name} className="max-h-full max-w-[80%] object-contain" />
                   </div>
                   <span className="text-[10px] font-bold text-gray-400 group-hover:text-gray-800 mt-4 uppercase tracking-wider transition-colors duration-300">
@@ -613,7 +640,7 @@ const App = () => {
           <div className="mb-8 sm:mb-12">
             <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6">Discover more</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-0 border-t border-gray-200">
-              {["WEB DESIGN & DEVELOPMENT", "MOBILE APP DEVELOPMENT", "CLOUD SOLUTIONS & DEVOPS", "SEO & DIGITAL MARKETING", "MOBILE APP DEVELOPMENT", "SAAS ENGINEERING", "SEO & DIGITAL MARKETING", "ERP & CRM IMPLEMENTATION"].map((item, i) => (
+              {["WEB DESIGN & DEVELOPMENT", "MOBILE APP DEVELOPMENT", "WHATSAPP BUSINESS API", "AI AUTOMATION & AGENTS", "CLOUD SOLUTIONS & DEVOPS", "SEO & DIGITAL MARKETING", "GRAPHIC & VIDEO DESIGN", "BULK SMS SYSTEM", "SAAS ENGINEERING", "ERP & CRM IMPLEMENTATION", "SALESFORCE SOLUTIONS", "BUSINESS AUTOMATION"].map((item, i) => (
                 <a key={i} href="#" className="flex items-center justify-between py-3 sm:py-4 border-b border-gray-200 hover:text-blue-600 transition group text-xs sm:text-sm font-semibold text-gray-700">
                   <span className="truncate">{item}</span>
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:translate-x-1 group-hover:text-blue-600 transition-all flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
@@ -625,7 +652,7 @@ const App = () => {
           <footer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 pt-6 sm:pt-8 pb-6 sm:pb-10 text-xs sm:text-sm text-gray-600 font-medium">
             <div className="sm:col-span-2">
               <img src="https://res.cloudinary.com/dfqsa6hoc/image/upload/v1777357761/company_logo_-removebg-preview_tzkdbq.png" alt="Aurix AI" className="h-8 sm:h-10 mb-4 sm:mb-6" />
-              <p className="text-gray-400 text-xs mt-2 max-w-xs leading-relaxed">Crafting high-performance web and mobile software solutions to scale your business.</p>
+              <p className="text-gray-400 text-xs mt-2 max-w-xs leading-relaxed">Crafting high-performance web, mobile, AI automation, and WhatsApp API solutions to scale your business.</p>
             </div>
             <div className="space-y-2 sm:space-y-3">
               <a href="#" className="block hover:text-black hover:translate-x-1 transition-transform">Projects</a>
@@ -742,6 +769,48 @@ const App = () => {
           </div>
         </div>
       )}
+
+      {/* Add custom CSS for animations */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
+        }
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-marquee {
+          animation: marquee 25s linear infinite;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
+        }
+      `}</style>
     </div>
   );
 };
